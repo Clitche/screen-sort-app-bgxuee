@@ -1,91 +1,189 @@
+
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "@/components/IconSymbol";
-import { GlassView } from "expo-glass-effect";
-import { useTheme } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { colors } from "@/styles/commonStyles";
 
 export default function ProfileScreen() {
-  const theme = useTheme();
-
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]} edges={['top']}>
-      <ScrollView
-        style={styles.container}
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <ScrollView 
+        style={styles.scrollView}
         contentContainerStyle={[
-          styles.contentContainer,
-          Platform.OS !== 'ios' && styles.contentContainerWithTabBar
+          styles.content,
+          Platform.OS !== 'ios' && styles.contentWithTabBar
         ]}
+        showsVerticalScrollIndicator={false}
       >
-        <GlassView style={[
-          styles.profileHeader,
-          Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
-        ]} glassEffectStyle="regular">
-          <IconSymbol name="person.circle.fill" size={80} color={theme.colors.primary} />
-          <Text style={[styles.name, { color: theme.colors.text }]}>John Doe</Text>
-          <Text style={[styles.email, { color: theme.dark ? '#98989D' : '#666' }]}>john.doe@example.com</Text>
-        </GlassView>
+        <View style={styles.header}>
+          <View style={styles.avatarContainer}>
+            <IconSymbol name="person.fill" size={48} color={colors.card} />
+          </View>
+          <Text style={styles.title}>Profile</Text>
+          <Text style={styles.subtitle}>Manage your screenshot organizer</Text>
+        </View>
 
-        <GlassView style={[
-          styles.section,
-          Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
-        ]} glassEffectStyle="regular">
-          <View style={styles.infoRow}>
-            <IconSymbol name="phone.fill" size={20} color={theme.dark ? '#98989D' : '#666'} />
-            <Text style={[styles.infoText, { color: theme.colors.text }]}>+1 (555) 123-4567</Text>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>About</Text>
+          <View style={styles.card}>
+            <View style={styles.cardRow}>
+              <IconSymbol name="photo.on.rectangle" size={24} color={colors.primary} />
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>Screenshot Organizer</Text>
+                <Text style={styles.cardDescription}>
+                  Automatically organize your screenshots by app and date
+                </Text>
+              </View>
+            </View>
           </View>
-          <View style={styles.infoRow}>
-            <IconSymbol name="location.fill" size={20} color={theme.dark ? '#98989D' : '#666'} />
-            <Text style={[styles.infoText, { color: theme.colors.text }]}>San Francisco, CA</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Features</Text>
+          
+          <View style={styles.card}>
+            <View style={styles.cardRow}>
+              <IconSymbol name="square.and.arrow.up" size={24} color={colors.primary} />
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>Share</Text>
+                <Text style={styles.cardDescription}>
+                  Share screenshots with other apps
+                </Text>
+              </View>
+            </View>
           </View>
-        </GlassView>
+
+          <View style={styles.card}>
+            <View style={styles.cardRow}>
+              <IconSymbol name="camera.viewfinder" size={24} color={colors.accent} />
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>Google Lens</Text>
+                <Text style={styles.cardDescription}>
+                  Search and identify objects in screenshots
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.card}>
+            <View style={styles.cardRow}>
+              <IconSymbol name="trash" size={24} color="#ef4444" />
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>Delete</Text>
+                <Text style={styles.cardDescription}>
+                  Remove unwanted screenshots easily
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>How It Works</Text>
+          <View style={styles.card}>
+            <Text style={styles.infoText}>
+              1. Grant media library access to the app
+            </Text>
+            <Text style={styles.infoText}>
+              2. The app scans your photos for screenshots
+            </Text>
+            <Text style={styles.infoText}>
+              3. Screenshots are grouped by app and date
+            </Text>
+            <Text style={styles.infoText}>
+              4. Tap on a group to expand and view screenshots
+            </Text>
+            <Text style={styles.infoText}>
+              5. Use the action buttons to share, search, or delete
+            </Text>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    // backgroundColor handled dynamically
-  },
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
-  contentContainer: {
-    padding: 20,
+  scrollView: {
+    flex: 1,
   },
-  contentContainerWithTabBar: {
-    paddingBottom: 100, // Extra padding for floating tab bar
+  content: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
   },
-  profileHeader: {
+  contentWithTabBar: {
+    paddingBottom: 100,
+  },
+  header: {
     alignItems: 'center',
-    borderRadius: 12,
-    padding: 32,
+    marginBottom: 32,
+  },
+  avatarContainer: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 16,
-    gap: 12,
+    boxShadow: '0px 4px 12px rgba(37, 99, 235, 0.3)',
+    elevation: 4,
   },
-  name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    // color handled dynamically
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 4,
   },
-  email: {
+  subtitle: {
     fontSize: 16,
-    // color handled dynamically
+    color: colors.textSecondary,
   },
   section: {
-    borderRadius: 12,
-    padding: 20,
-    gap: 12,
+    marginBottom: 24,
   },
-  infoRow: {
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: 12,
+  },
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
+    elevation: 2,
+  },
+  cardRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+  },
+  cardContent: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: 4,
+  },
+  cardDescription: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    lineHeight: 20,
   },
   infoText: {
-    fontSize: 16,
-    // color handled dynamically
+    fontSize: 15,
+    color: colors.text,
+    lineHeight: 24,
+    marginBottom: 8,
   },
 });
